@@ -1,0 +1,84 @@
+<!doctype html>
+<html ng-app>
+  <head>
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/checklist.js"></script>
+    <link rel="stylesheet" href="css/checklist.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+  </head>
+  <body>
+
+    <div class="container">
+
+        <br>
+        <h2>Checklist for humans</h2>
+        <div ng-controller="TaskCtrl">
+        <br>
+        <br>
+        <table class="table table-striped" border="0" cellspacing="0" cellpadding="0">
+            <tr><th>task</th>
+                <th class="textaligncenter" width="55px">works</th>
+                <th class="textaligncenter" width="55px">fails</th>
+            </tr>
+            <tr ng-repeat="task in tasks">
+                <td class="works-{{task.works}} fails-{{task.fails}}">
+
+                    <blockquote>
+                        <p>{{ task.text}}</p>
+                    </blockquote>
+                    <div class="note" ng-hide="!task.note">
+                        <span>Note: {{task.note}}</span>
+                    </div>
+
+                    <div class="note" ng-hide="task.note" ng-show="task.fails">
+                        <form ng-submit="addNote()">
+                          <input type="text" ng-model="noteText" size="100"
+                                 placeholder="what fails?">
+                          <input class="btn" type="submit" value="add note">
+                        </form>
+                    </div>
+
+                </td>
+                <td class="works-{{task.works}} fails-{{task.fails}} textaligncenter">
+
+                    <button class="btn checkbox" type="button" ng-model="task.works" ng-click="toggleState('works')">
+                        <i ng-class="{true: 'icon-check', false: 'icon-check-empty'}[task.works]"></i>
+                    </button>
+
+                </td>
+                <td class="works-{{task.works}} fails-{{task.fails}} textaligncenter">
+
+                    <button class="btn checkbox" type="button" ng-click="toggleState('fails')">
+                        <i ng-class="{true: 'icon-check', false: 'icon-check-empty'}[task.fails]"></i>
+                    </button>
+
+                </td>
+
+            </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <form ng-submit="addTask()">
+          <input type="text" ng-model="taskText"  size="200"
+                 placeholder="enter Nr. and new task">
+          <input class="btn" type="submit" value="add task">
+        </form>
+        <br>
+        <br>
+        <div class="result alert" ng-class="{true: 'alert-info', false: 'alert-error'}[failedtasks() == 0]">
+            <h4>
+                {{failedtasks()}} of {{tasks.length}} tasks failed
+            </h4>
+            <div class="failurereport" ng-show="failedtasks() > 0">
+                <a class="btn" href="" ng-click="archive()">list fails</a>
+                <a class="btn" ng-click="sendmail()">send mail</a>
+            </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </div><!-- container end -->
+  </body>
+</html>
