@@ -1,6 +1,9 @@
 <!doctype html>
 <html ng-app>
   <head>
+
+    <title></title>
+
     <script src="js/lib/angular.min.js"></script>
     <script src="js/checklist.js"></script>
     <link rel="stylesheet" href="css/checklist.css">
@@ -23,15 +26,14 @@
             </tr>
             <tr ng-repeat="task in tasks">
                 <td class="works-{{task.works}} fails-{{task.fails}}">
-
                     <blockquote>
                         <p>{{ task.text}}</p>
                     </blockquote>
-                    <div class="note" ng-hide="!task.note">
+                    <div ng-class="note" ng-hide="!task.note">
                         <span>Note: {{task.note}}</span>
                     </div>
 
-                    <div class="note" ng-hide="task.note" ng-show="task.fails">
+                    <div ng-class="note" ng-hide="task.note" ng-show="task.fails">
                         <form ng-submit="addNote()">
                           <input type="text" ng-model="noteText" size="100"
                                  placeholder="what fails?">
@@ -43,14 +45,14 @@
                 <td class="works-{{task.works}} fails-{{task.fails}} textaligncenter">
 
                     <button class="btn checkbox" type="button" ng-model="task.works" ng-click="toggleState('works')">
-                        <i ng-class="{true: 'icon-check', false: 'icon-check-empty'}[task.works]"></i>
+                        <i ng-class="{true: 'icon-check', undefined: 'icon-check-empty', false: 'icon-check-empty'}[task.works]"></i>
                     </button>
 
                 </td>
                 <td class="works-{{task.works}} fails-{{task.fails}} textaligncenter">
 
                     <button class="btn checkbox" type="button" ng-click="toggleState('fails')">
-                        <i ng-class="{true: 'icon-check', false: 'icon-check-empty'}[task.fails]"></i>
+                        <i ng-class="{true: 'icon-check', undefined: 'icon-check-empty', false: 'icon-check-empty'}[task.fails]"></i>
                     </button>
 
                 </td>
@@ -69,11 +71,14 @@
         <br>
         <div class="result alert" ng-class="{true: 'alert-info', false: 'alert-error'}[failedtasks() == 0]">
             <h4>
-                {{failedtasks()}} of {{tasks.length}} tasks failed
+                {{failedtasks()}} of {{tasks.length}} task{{{true:'s', false:''}[tasks.length > 1]}} failed
             </h4>
             <div class="failurereport" ng-show="failedtasks() > 0">
                 <a class="btn" href="" ng-click="archive()">list fails</a>
                 <a class="btn" ng-click="sendmail()">send mail</a>
+            </div>
+            <div class="superreport" ng-show="workedtasks()">
+                <a class="btn" ng-click="sendmail()">send mail with great news ;)</a>
             </div>
         </div>
         <br>

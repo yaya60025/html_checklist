@@ -25,7 +25,9 @@ input[type="text"] {
 }
 
 blockquote {
-  margin: 0 0 0 0 !important;
+  padding: 6px 0px 0px 6px !important;
+  margin: 0px 0px 8px 0px !important;
+  border: 0px !important;
 }
 
 i {
@@ -33,8 +35,16 @@ i {
 }
 
 .note {
+  display: none;
+}
+
+span {
   font-weight: bold;
   margin: 13px 0px 6px 10px;
+}
+
+.note.fails-true {
+  display: block;
 }
 
 .btn.checkbox {
@@ -49,6 +59,10 @@ form {
   width: 65%;
 }
 */
+.superreport {
+  margin: 6px 0px 4px 0px;
+}
+
 .failurereport {
   margin: 6px 0px 4px 0px;
 }
